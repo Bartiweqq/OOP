@@ -18,15 +18,15 @@
     <ClCompile Include="main.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="HexString.cpp">
+    <ClCompile Include="marsh.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="UnitTest.cpp">
+    <ClCompile Include="test_marsh.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="HexString.h">
+    <ClInclude Include="marsh.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>

@@ -21,7 +21,7 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{3a7bae48-2927-4ded-a7ba-eadec905dfb0}</ProjectGuid>
+    <ProjectGuid>{91663b48-5f50-42c9-8383-261725500915}</ProjectGuid>
     <RootNamespace>ConsoleApplication1</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
@@ -127,12 +127,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="HexString.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="UnitTest.cpp" />
+    <ClCompile Include="marsh.cpp" />
+    <ClCompile Include="test_marsh.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="HexString.h" />
+    <ClInclude Include="marsh.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

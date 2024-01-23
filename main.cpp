@@ -1,72 +1,76 @@
-﻿// Подключение заголовочных файлов для работы с классами и стандартными библиотеками
-#include "HexString.h"
-#include <iostream>
+﻿#include <iostream>
+#include <algorithm>
+#include "MARSH.h"
+#include <limits>
 #include <chrono>
-
-// Прототип функции для тестирования вычитания из UnitTest.cpp
-bool TestSubtraction();
-
-// Используемые пространства имен для удобства
 using namespace std;
 using namespace std::chrono;
 
-// Класс для измерения времени выполнения кода в блоке
+bool testMARSH(); // Прототип функции тестирования
 class LogDuration {
-public:
-    // Конструктор класса, инициализирующий начальное время
-    LogDuration()
-        : start(steady_clock::now())
-    {
-    }
+    public:
+        LogDuration()
+            : start(steady_clock::now())
+        {
+        }
 
-    // Деструктор класса, выводящий затраченное время при уничтожении объекта
-    ~LogDuration() {
-        auto finish = steady_clock::now(); // Получаем текущее время
-        auto dur = finish - start; // Вычисляем разницу времени
-        cerr << duration_cast<milliseconds>(dur).count()
-            << " ms" << endl; // Выводим время в миллисекундах
-    }
-private:
-    steady_clock::time_point start; // Начальное время измерения
-};
+        ~LogDuration() {
+            auto finish = steady_clock::now();
+            auto dur = finish - start;
+            cerr << duration_cast<milliseconds>(dur).count()
+                << " ms" << endl;
+        }
+    private:
+        steady_clock::time_point start;
+    };
 
-// Главная функция программы
 int main() {
-    setlocale(LC_ALL, "Russian"); // Устанавливаем русскую локаль для корректного вывода
-
+    setlocale(LC_ALL, "Russian");
     {
-        LogDuration input; // Создаем объект класса LogDuration для измерения времени ввода данных
-        bool passed = TestSubtraction(); // Вызываем тесты
+        LogDuration input;
+        const int ARRAY_SIZE = 8;
+        MARSH marshArray[ARRAY_SIZE]; // Создание массива объектов класса MARSH
 
-        // Проверка прохождения тестов и вывод результата
-        if (passed) {
-            std::cout << "All tests passed successfully!" << std::endl;
+        // Запуск тестов для проверки функциональности класса MARSH
+        std::cout << "Running tests...\n";
+        if (testMARSH()) { // Если тесты пройдены успешно
+            std::cout << "All tests passed!\n"; // Вывести сообщение об успешном прохождении тестов
         }
         else {
-            std::cout << "Tests failed!" << std::endl;
+            std::cout << "Tests failed!\n"; // Вывести сообщение об ошибке при выполнении тестов
         }
 
-        // Ввод двух шестнадцатеричных чисел для вычисления
-        std::string input1, input2;
-        std::cout << "Введите первое шестнадцатеричное число: ";
-        std::cin >> input1;
-        std::cout << "Введите второе шестнадцатеричное число: ";
-        std::cin >> input2;
-
-        // Проверка, что вычитаемое число больше числа, из которого вычитают
-        HexString hexInput1(input1);
-        HexString hexInput2(input2);
-
-        // Проверка условия для правильного выполнения операции вычитания
-        if (hexInput2.GetHexValue() > hexInput1.GetHexValue()) {
-            std::cout << "Ошибка: вычитаемое число должно быть больше числа, из которого производится вычитание." << std::endl;
-            return 1;
+        // Заполнение массива marshArray данными от пользователя
+        for (int i = 0; i < ARRAY_SIZE; ++i) {
+            std::cout << "Enter details for route " << i + 1 << ":\n";
+            std::cin >> marshArray[i]; // Ввод данных о маршруте из консоли
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Очистка символа новой строки
         }
 
-        // Вычитание введенных чисел и вывод результата
-        HexString subtractionResult = hexInput1 - hexInput2;
-        std::cout << "Результат вычитания: " << subtractionResult.GetHexValue() << std::endl;
+        // Сортировка массива marshArray по номеру маршрута
+        std::sort(marshArray, marshArray + ARRAY_SIZE, [](const MARSH& a, const MARSH& b) {
+            return a.getRouteNumber() < b.getRouteNumber();
+            });
+
+        int routeToFind;
+        std::cout << "\nEnter Route Number to find: ";
+        std::cin >> routeToFind; // Ввод номера маршрута для поиска
+
+        bool found = false;
+        // Поиск маршрута в массиве и вывод информации о нем, если он найден
+        for (int i = 0; i < ARRAY_SIZE; ++i) {
+            if (marshArray[i].getRouteNumber() == routeToFind) {
+                std::cout << "\nRoute details:\n";
+                std::cout << marshArray[i]; // Вывод информации о найденном маршруте
+                found = true;
+                break;
+            }
+        }
+
+        if (!found) {
+            std::cout << "Route with number " << routeToFind << " not found.\n"; // Вывод сообщения об отсутствии маршрута
+        }
+
+        return 0; // Возврат из main() с успешным завершением программы
     }
-
-    return 0; // Возвращаемый код завершения программы
 }
