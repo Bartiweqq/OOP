@@ -1,37 +1,37 @@
-#include "functions.h" 
-#include <iostream>
+#include "Translator.h"
+#include <fstream> 
+#include <iostream> 
+#include <locale> 
 #include <chrono>
 using namespace std;
 using namespace std::chrono;
 class LogDuration {
-public:
-    LogDuration()
-        : start(steady_clock::now())
-    {
-    }
+    public:
+        LogDuration()
+            : start(steady_clock::now())
+        {
+        }
 
-    ~LogDuration() {
-        auto finish = steady_clock::now();
-        auto dur = finish - start;
-        cerr << duration_cast<milliseconds>(dur).count()
-            << " ms" << endl;
-    }
-private:
-    steady_clock::time_point start;
+        ~LogDuration() {
+            auto finish = steady_clock::now();
+            auto dur = finish - start;
+            cerr << duration_cast<milliseconds>(dur).count()
+                << " ms" << endl;
+        }
+    private:
+        steady_clock::time_point start;
 };
-
-extern void testFileOpening(); // Объявление функции тестирования
 
 int main() {
     setlocale(LC_ALL, "Russian");
     {
         LogDuration input;
-        std::string filename = "input.txt";
-        processFile(filename); // Вызов функции для обработки файла
+        system("chcp 1251"); // Установка кодировки консоли в Windows-1251 для поддержки кириллицы.
+        std::wstring rus = L"Русский"; // Создание переменной rus типа wstring и инициализация ее значением "Русский".
+        std::wcout << rus << std::endl; // Вывод строки "Русский" в консоль.
 
-        testFileOpening(); // Вызов функции тестирования открытия файла
+        runTranslator(); // Вызов функции, которая запускает работу переводчика.
 
-        std::cout << "All tests passed!" << std::endl; // Вывод сообщения о завершении всех тестов
-        return 0; // Возвращение нуля, чтобы показать успешное завершение программы
+        return 0; // Возврат нуля, обозначающего успешное завершение программы.
     }
 }

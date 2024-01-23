@@ -1,0 +1,4 @@
+﻿hello привет
+apple яблоко
+table стол
+mouse мышь

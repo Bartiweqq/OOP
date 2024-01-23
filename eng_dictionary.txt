@@ -1,0 +1,4 @@
+apple
+house
+car
+table
